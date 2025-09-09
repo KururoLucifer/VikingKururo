@@ -1,4 +1,4 @@
-/* Fond Viking HD plein écran */
+/* Fond viking mystique */
 html, body {
   height: 100%;
   margin: 0;
@@ -6,11 +6,9 @@ html, body {
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: url('https://images.unsplash.com/photo-1579071456016-4f0d0d2041f2?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+  font-family: 'HYWenHei-85W', sans-serif;
+  background: url('https://stock.adobe.com/fr/images/scandinavian-fleet-sailing-on-long-wooden-ships-on-mysterious-waters-fantasy-landscape-with-vikings-on-dragon-boats-with-shields-and-sails-in-a-dark-sea-in-a-mist-among-sharp-rocks-and-mermaids/487986227?prev_url=detail') no-repeat center center fixed;
   background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
   color: #ecf0f1;
   text-align: center;
   display: flex;
@@ -20,14 +18,15 @@ body {
 
 /* Conteneur du jeu */
 #game {
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   padding: 30px;
   border-radius: 15px;
   width: 90%;
   max-width: 700px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
   transition: transform 0.3s;
 }
+
 #game:hover {
   transform: scale(1.02);
 }
@@ -48,9 +47,11 @@ button.choice {
   cursor: pointer;
   background: #16a085;
   color: white;
-  font-size: 16px;
+  font-size: 18px;
+  font-family: 'HYWenHei-85W', sans-serif;
   transition: background 0.3s, transform 0.2s;
 }
+
 button.choice:hover {
   background: #1abc9c;
   transform: scale(1.05);
@@ -63,26 +64,16 @@ button.choice:hover {
   margin-bottom: 15px;
   transition: opacity 0.5s, transform 0.3s;
 }
+
 .character:hover {
   transform: scale(1.1);
-}
-
-/* Conteneur musique */
-#music-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 /* Contrôles musique */
 #music-controls {
   position: fixed;
   bottom: 20px;
-  left: 20px;
+  right: 20px;
   z-index: 1000;
   display: flex;
   gap: 10px;
@@ -101,4 +92,8 @@ button.choice:hover {
 
 #music-controls button:hover {
   background-color: #1abc9c;
+}
+
+#music-controls input[type=range] {
+  cursor: pointer;
 }
