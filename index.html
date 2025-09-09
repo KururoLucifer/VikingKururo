@@ -1,107 +1,106 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Quiz-Aventure Viking</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz-Aventure Viking</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="game">
-  <h1>Quiz-Aventure Viking 🌟</h1>
-  <img id="character-img" src="" alt="" class="character">
-  <div id="text">Bienvenue dans l’aventure ! Clique sur commencer.</div>
-  <div id="choices"></div>
-  <button id="start-btn">Commencer</button>
-  <div id="status"></div>
-</div>
+  <!-- Conteneur principal du jeu -->
+  <div id="game">
+    <h1>Quiz-Aventure Viking 🌟</h1>
+    <img id="character-img" src="" alt="" class="character">
+    <div id="text">Bienvenue dans l’aventure ! Clique sur commencer.</div>
+    <div id="choices"></div>
+    <button id="start-btn">Commencer</button>
+    <div id="status"></div>
+  </div>
 
-<!-- Conteneur musique YouTube -->
-<div id="music-container">
-  <iframe id="viking-music" width="300" height="150"
-    src="https://www.youtube.com/embed/kKAY7YaBVWM?autoplay=1&loop=1&playlist=kKAY7YaBVWM&controls=0"
-    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-  </iframe>
-</div>
+  <!-- Musique de fond -->
+  <audio id="viking-music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    Votre navigateur ne supporte pas l'élément audio.
+  </audio>
 
-<!-- Contrôles musique -->
-<div id="music-controls">
-  <button id="play-btn">▶️ Lecture</button>
-  <button id="pause-btn">⏸️ Pause</button>
-</div>
+  <!-- Contrôles de la musique -->
+  <div id="music-controls">
+    <button id="play-btn">▶️ Lecture</button>
+    <button id="pause-btn">⏸️ Pause</button>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+  </div>
 
-<script>
-// Contrôle musique YouTube
-const playBtn = document.getElementById('play-btn');
-const pauseBtn = document.getElementById('pause-btn');
-const musicFrame = document.getElementById('viking-music');
+  <script>
+    // Contrôle de la musique
+    const music = document.getElementById('viking-music');
+    const playBtn = document.getElementById('play-btn');
+    const pauseBtn = document.getElementById('pause-btn');
+    const volumeSlider = document.getElementById('volume-slider');
 
-playBtn.onclick = () => {
-  musicFrame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-};
+    playBtn.onclick = () => music.play();
+    pauseBtn.onclick = () => music.pause();
+    volumeSlider.oninput = () => music.volume = volumeSlider.value;
+    music.volume = 0.5;
 
-pauseBtn.onclick = () => {
-  musicFrame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-};
+    // Aventure
+    const adventure = [
+      { text: "Tu arrives dans une forêt viking. Un guerrier bloque le chemin.", character: "https://i.imgur.com/Ox6T3gO.png", question: "Capitale de la France ?", choices: [{ text: "Paris", correct: true }, { text: "Londres", correct: false }, { text: "Berlin", correct: false }, { text: "Madrid", correct: false }] },
+      { text: "Tu franchis un pont suspendu.", character: "https://i.imgur.com/Ox6T3gO.png", question: "2 + 2 * 2 = ?", choices: [{ text: "6", correct: true }, { text: "8", correct: false }, { text: "4", correct: false }, { text: "10", correct: false }] },
+      { text: "Un sphinx viking te pose une dernière question.", character: "https://i.imgur.com/Xk2V8wU.png", question: "Plus grand océan ?", choices: [{ text: "Atlantique", correct: false }, { text: "Pacifique", correct: true }, { text: "Indien", correct: false }, { text: "Arctique", correct: false }] }
+    ];
 
-// Aventure
-const adventure = [
-  { text:"Tu arrives dans une forêt viking. Un guerrier bloque le chemin.", character:"https://i.imgur.com/Ox6T3gO.png", question:"Capitale de la France ?", choices:[{text:"Paris",correct:true},{text:"Londres",correct:false},{text:"Berlin",correct:false},{text:"Madrid",correct:false}]},
-  { text:"Tu franchis un pont suspendu.", character:"https://i.imgur.com/Ox6T3gO.png", question:"2 + 2 * 2 = ?", choices:[{text:"6",correct:true},{text:"8",correct:false},{text:"4",correct:false},{text:"10",correct:false}]},
-  { text:"Un sphinx viking te pose une dernière question.", character:"https://i.imgur.com/Xk2V8wU.png", question:"Plus grand océan ?", choices:[{text:"Atlantique",correct:false},{text:"Pacifique",correct:true},{text:"Indien",correct:false},{text:"Arctique",correct:false}]}
-];
+    let currentScene = 0;
+    let score = 0;
 
-let currentScene = 0;
-let score = 0;
+    const textEl = document.getElementById('text');
+    const choicesEl = document.getElementById('choices');
+    const startBtn = document.getElementById('start-btn');
+    const statusEl = document.getElementById('status');
+    const characterImg = document.getElementById('character-img');
 
-const textEl = document.getElementById('text');
-const choicesEl = document.getElementById('choices');
-const startBtn = document.getElementById('start-btn');
-const statusEl = document.getElementById('status');
-const characterImg = document.getElementById('character-img');
-
-function fadeOutIn(element, newContent){
-  element.style.opacity=0;
-  setTimeout(()=>{
-    element.innerHTML=newContent;
-    element.style.opacity=1;
-  },300);
-}
-
-function showScene(sceneIndex){
-  const scene = adventure[sceneIndex];
-  fadeOutIn(textEl, scene.text + "<br>" + scene.question);
-  characterImg.src = scene.character;
-  characterImg.style.opacity = 0;
-  setTimeout(()=>{characterImg.style.opacity = 1;},300);
-
-  choicesEl.innerHTML = "";
-  scene.choices.forEach(choice=>{
-    const btn=document.createElement('button');
-    btn.textContent = choice.text;
-    btn.className='choice';
-    btn.onclick = ()=>{
-      if(choice.correct) score++;
-      currentScene++;
-      if(currentScene<adventure.length) showScene(currentScene);
-      else {
-        fadeOutIn(textEl,"Fin de l'aventure ! Score: "+score+"/"+adventure.length);
-        choicesEl.innerHTML="";
-        startBtn.style.display="block";
-      }
+    function fadeOutIn(element, newContent) {
+      element.style.opacity = 0;
+      setTimeout(() => {
+        element.innerHTML = newContent;
+        element.style.opacity = 1;
+      }, 300);
     }
-    choicesEl.appendChild(btn);
-  });
-  statusEl.textContent="Score: "+score;
-}
 
-startBtn.onclick = ()=>{
-  startBtn.style.display="none";
-  currentScene=0;
-  score=0;
-  showScene(currentScene);
-}
-</script>
+    function showScene(sceneIndex) {
+      const scene = adventure[sceneIndex];
+      fadeOutIn(textEl, scene.text + "<br>" + scene.question);
+      characterImg.src = scene.character;
+      characterImg.style.opacity = 0;
+      setTimeout(() => { characterImg.style.opacity = 1; }, 300);
+
+      choicesEl.innerHTML = "";
+      scene.choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.textContent = choice.text;
+        btn.className = 'choice';
+        btn.onclick = () => {
+          if (choice.correct) score++;
+          currentScene++;
+          if (currentScene < adventure.length) showScene(currentScene);
+          else {
+            fadeOutIn(textEl, "Fin de l'aventure ! Score: " + score + "/" + adventure.length);
+            choicesEl.innerHTML = "";
+            startBtn.style.display = "block";
+          }
+        };
+        choicesEl.appendChild(btn);
+      });
+      statusEl.textContent = "Score: " + score;
+    }
+
+    startBtn.onclick = () => {
+      startBtn.style.display = "none";
+      currentScene = 0;
+      score = 0;
+      showScene(currentScene);
+    };
+  </script>
+
 </body>
 </html>
-<audio id="viking-music" src="ma-musique.mp3" loop autoplay></audio>
