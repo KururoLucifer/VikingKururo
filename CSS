@@ -1,13 +1,19 @@
-/* Fond viking plein écran */
-body {
-  font-family: Arial, sans-serif;
+/* Assurer que le body et html prennent tout l'écran */
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  background: url('https://images.unsplash.com/photo-1605433463516-ec4f18e8a3d5?auto=format&fit=crop&w=1650&q=80') no-repeat center center fixed;
-  background-size: cover;
+}
+
+/* Fond Viking HD */
+body {
+  font-family: Arial, sans-serif;
+  background: url('https://images.unsplash.com/photo-1579071456016-4f0d0d2041f2?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+  background-size: cover; /* couvre toute la page */
+  background-position: center;
+  background-attachment: fixed;
   color: #ecf0f1;
   text-align: center;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,11 +21,12 @@ body {
 
 /* Conteneur du jeu */
 #game {
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.6); /* semi-transparent pour lisibilité */
   padding: 30px;
   border-radius: 15px;
   width: 90%;
   max-width: 700px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
   transition: transform 0.3s;
 }
 #game:hover {
