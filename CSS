@@ -1,25 +1,63 @@
+/* Fond viking plein écran */
 body {
   font-family: Arial, sans-serif;
-  background: #2c3e50;
+  margin: 0;
+  padding: 0;
+  background: url('https://images.unsplash.com/photo-1605433463516-ec4f18e8a3d5?auto=format&fit=crop&w=1650&q=80') no-repeat center center fixed;
+  background-size: cover;
   color: #ecf0f1;
   text-align: center;
-  padding: 50px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+/* Conteneur du jeu */
 #game {
-  background: #1abc9c;
-  padding: 20px;
+  background: rgba(0,0,0,0.6);
+  padding: 30px;
   border-radius: 15px;
+  width: 90%;
+  max-width: 700px;
+  transition: transform 0.3s;
 }
-button {
+#game:hover {
+  transform: scale(1.02);
+}
+
+/* Texte */
+#text {
+  min-height: 80px;
+  font-size: 18px;
+  transition: opacity 0.5s;
+}
+
+/* Boutons */
+button.choice {
   margin: 10px;
-  padding: 10px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   background: #16a085;
   color: white;
   font-size: 16px;
+  transition: background 0.3s, transform 0.2s;
 }
-button:hover {
+button.choice:hover {
   background: #1abc9c;
+  transform: scale(1.05);
 }
+
+/* Image personnage */
+.character {
+  width: 180px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  transition: opacity 0.5s, transform 0.3s;
+}
+.character:hover {
+  transform: scale(1.1);
+}
+
