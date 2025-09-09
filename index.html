@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <div id="game">
   <h1>Quiz-Aventure Viking 🌟</h1>
   <img id="character-img" src="" alt="" class="character">
@@ -13,9 +14,34 @@
   <div id="choices"></div>
   <button id="start-btn">Commencer</button>
   <div id="status"></div>
+
+  <!-- Contrôles musique -->
+  <div id="music-controls">
+    <button id="play-btn">▶️ Lecture</button>
+    <button id="pause-btn">⏸️ Pause</button>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+  </div>
 </div>
 
+<!-- Musique d'ambiance viking -->
+<audio id="viking-music" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  Votre navigateur ne supporte pas l'élément audio.
+</audio>
+
 <script>
+// Sons et musique
+const music = document.getElementById('viking-music');
+const playBtn = document.getElementById('play-btn');
+const pauseBtn = document.getElementById('pause-btn');
+const volumeSlider = document.getElementById('volume-slider');
+
+playBtn.onclick = () => music.play();
+pauseBtn.onclick = () => music.pause();
+volumeSlider.oninput = () => music.volume = volumeSlider.value;
+music.volume = 0.5;
+
+// Aventure
 const adventure = [
   { text:"Tu arrives dans une forêt viking. Un guerrier bloque le chemin.", character:"https://i.imgur.com/Ox6T3gO.png", question:"Capitale de la France ?", choices:[{text:"Paris",correct:true},{text:"Londres",correct:false},{text:"Berlin",correct:false},{text:"Madrid",correct:false}]},
   { text:"Tu franchis un pont suspendu.", character:"https://i.imgur.com/Ox6T3gO.png", question:"2 + 2 * 2 = ?", choices:[{text:"6",correct:true},{text:"8",correct:false},{text:"4",correct:false},{text:"10",correct:false}]},
@@ -45,7 +71,7 @@ function showScene(sceneIndex){
   characterImg.src = scene.character;
   characterImg.style.opacity = 0;
   setTimeout(()=>{characterImg.style.opacity = 1;},300);
-  
+
   choicesEl.innerHTML = "";
   scene.choices.forEach(choice=>{
     const btn=document.createElement('button');
@@ -75,4 +101,3 @@ startBtn.onclick = ()=>{
 </script>
 </body>
 </html>
-
