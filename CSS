@@ -67,29 +67,38 @@ button.choice:hover {
   transform: scale(1.1);
 }
 
+/* Conteneur musique */
+#music-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
 /* Contrôles musique */
 #music-controls {
-  margin-top: 20px;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
 }
 
 #music-controls button {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 8px;
-  background: #16a085;
+  padding: 10px;
+  background-color: #16a085;
   color: white;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  transition: background 0.3s;
-}
-#music-controls button:hover {
-  background: #1abc9c;
+  transition: background-color 0.3s;
 }
 
-#music-controls input[type=range] {
-  cursor: pointer;
+#music-controls button:hover {
+  background-color: #1abc9c;
 }
