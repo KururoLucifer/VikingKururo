@@ -2,12 +2,13 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Quiz-Aventure GitHub</title>
+<title>Quiz-Aventure Viking</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="game">
-  <h1>Quiz-Aventure 🌟</h1>
+  <h1>Quiz-Aventure Viking 🌟</h1>
+  <img id="character-img" src="" alt="" class="character">
   <div id="text">Bienvenue dans l’aventure ! Clique sur commencer.</div>
   <div id="choices"></div>
   <button id="start-btn">Commencer</button>
@@ -16,9 +17,9 @@
 
 <script>
 const adventure = [
-  { text:"Forêt mystérieuse. Un elfe te bloque le chemin.", question:"Capitale de la France ?", choices:[{text:"Paris",correct:true},{text:"Londres",correct:false},{text:"Berlin",correct:false},{text:"Madrid",correct:false}]},
-  { text:"Pont magique devant toi.", question:"2 + 2 * 2 = ?", choices:[{text:"6",correct:true},{text:"8",correct:false},{text:"4",correct:false},{text:"10",correct:false}]},
-  { text:"Sphinx te pose une dernière question.", question:"Plus grand océan ?", choices:[{text:"Atlantique",correct:false},{text:"Pacifique",correct:true},{text:"Indien",correct:false},{text:"Arctique",correct:false}]}
+  { text:"Tu arrives dans une forêt viking. Un guerrier bloque le chemin.", character:"https://i.imgur.com/Ox6T3gO.png", question:"Capitale de la France ?", choices:[{text:"Paris",correct:true},{text:"Londres",correct:false},{text:"Berlin",correct:false},{text:"Madrid",correct:false}]},
+  { text:"Tu franchis un pont suspendu.", character:"https://i.imgur.com/Ox6T3gO.png", question:"2 + 2 * 2 = ?", choices:[{text:"6",correct:true},{text:"8",correct:false},{text:"4",correct:false},{text:"10",correct:false}]},
+  { text:"Un sphinx viking te pose une dernière question.", character:"https://i.imgur.com/Xk2V8wU.png", question:"Plus grand océan ?", choices:[{text:"Atlantique",correct:false},{text:"Pacifique",correct:true},{text:"Indien",correct:false},{text:"Arctique",correct:false}]}
 ];
 
 let currentScene = 0;
@@ -28,31 +29,45 @@ const textEl = document.getElementById('text');
 const choicesEl = document.getElementById('choices');
 const startBtn = document.getElementById('start-btn');
 const statusEl = document.getElementById('status');
+const characterImg = document.getElementById('character-img');
+
+function fadeOutIn(element, newContent){
+  element.style.opacity=0;
+  setTimeout(()=>{
+    element.innerHTML=newContent;
+    element.style.opacity=1;
+  },300);
+}
 
 function showScene(sceneIndex){
   const scene = adventure[sceneIndex];
-  textEl.textContent = scene.text + " " + scene.question;
+  fadeOutIn(textEl, scene.text + "<br>" + scene.question);
+  characterImg.src = scene.character;
+  characterImg.style.opacity = 0;
+  setTimeout(()=>{characterImg.style.opacity = 1;},300);
+  
   choicesEl.innerHTML = "";
   scene.choices.forEach(choice=>{
-    const btn = document.createElement('button');
+    const btn=document.createElement('button');
     btn.textContent = choice.text;
+    btn.className='choice';
     btn.onclick = ()=>{
       if(choice.correct) score++;
       currentScene++;
       if(currentScene<adventure.length) showScene(currentScene);
       else {
-        textEl.textContent = "Fin de l'aventure ! Score: " + score + "/" + adventure.length;
-        choicesEl.innerHTML = "";
-        startBtn.style.display = "block";
+        fadeOutIn(textEl,"Fin de l'aventure ! Score: "+score+"/"+adventure.length);
+        choicesEl.innerHTML="";
+        startBtn.style.display="block";
       }
     }
     choicesEl.appendChild(btn);
   });
-  statusEl.textContent = "Score: " + score;
+  statusEl.textContent="Score: "+score;
 }
 
 startBtn.onclick = ()=>{
-  startBtn.style.display = "none";
+  startBtn.style.display="none";
   currentScene=0;
   score=0;
   showScene(currentScene);
@@ -60,3 +75,4 @@ startBtn.onclick = ()=>{
 </script>
 </body>
 </html>
+
