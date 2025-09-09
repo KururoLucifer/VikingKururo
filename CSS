@@ -1,15 +1,14 @@
-/* Assurer que le body et html prennent tout l'écran */
+/* Fond Viking HD plein écran */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
-/* Fond Viking HD */
 body {
   font-family: Arial, sans-serif;
   background: url('https://images.unsplash.com/photo-1579071456016-4f0d0d2041f2?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
-  background-size: cover; /* couvre toute la page */
+  background-size: cover;
   background-position: center;
   background-attachment: fixed;
   color: #ecf0f1;
@@ -21,7 +20,7 @@ body {
 
 /* Conteneur du jeu */
 #game {
-  background: rgba(0,0,0,0.6); /* semi-transparent pour lisibilité */
+  background: rgba(0,0,0,0.6);
   padding: 30px;
   border-radius: 15px;
   width: 90%;
@@ -68,3 +67,29 @@ button.choice:hover {
   transform: scale(1.1);
 }
 
+/* Contrôles musique */
+#music-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#music-controls button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: #16a085;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+#music-controls button:hover {
+  background: #1abc9c;
+}
+
+#music-controls input[type=range] {
+  cursor: pointer;
+}
